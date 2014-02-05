@@ -7,7 +7,7 @@ using namespace std;
 
 class entity
 {
-	vector <attribute> attribute_list;
+	vector <attribute *> attribute_list; //Polymorphic pointers
 	entity();
 };
 #endif

@@ -3,12 +3,13 @@
 
 #define INT 0
 #define STRING 1
+#define UNDEFINED 3
 
 #include "string"
 
 using namespace std;
 
-class attribute
+class attribute //Generally useless base class
 {
 public:
 	unsigned int type;
