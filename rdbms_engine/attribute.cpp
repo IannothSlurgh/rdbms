@@ -49,7 +49,7 @@ string_attribute::string_attribute()
 	value = "";
 }
 
-string_attribute::string_attribute( int _value )
+string_attribute::string_attribute( string _value )
 {
 	type = STRING;
 	value = _value;

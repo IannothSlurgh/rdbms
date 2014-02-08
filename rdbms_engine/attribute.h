@@ -1,7 +1,7 @@
 #ifndef ATTRIBUTE_GUARD
 #define ATTRIBUTE_GUARD
 
-#define INT 0
+#define INTEGER 0
 #define STRING 1
 #define UNDEFINED 3
 

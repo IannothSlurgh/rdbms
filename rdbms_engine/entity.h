@@ -8,6 +8,10 @@ using namespace std;
 class entity
 {
 	vector <attribute *> attribute_list; //Polymorphic pointers
-	entity();
+public:
+	entity(){};
+	void addIntAttribute(int num_value);
+	void addStringAttribute(string str_value);
+	attribute getAttribute(int index);
 };
 #endif
