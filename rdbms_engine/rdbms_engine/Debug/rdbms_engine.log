@@ -1,0 +1,17 @@
+﻿Build started 2/9/2014 6:16:17 PM.
+     1>Project "\\toaster\homes\i\a\iannoth_slurgh\nt\AccountSettings\Desktop\rdbms_engine\rdbms_engine\rdbms_engine.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         Q:\VS2012U3\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt database.cpp
+         database.cpp
+       Lib:
+         Q:\VS2012U3\VC\bin\Lib.exe /OUT:"\\toaster\homes\i\a\iannoth_slurgh\nt\AccountSettings\Desktop\rdbms_engine\Debug\rdbms_engine.lib" /NOLOGO Debug\attribute.obj
+         Debug\Condition.obj
+         Debug\database.obj
+         Debug\entity.obj
+         Debug\Table.obj
+         rdbms_engine.vcxproj -> \\toaster\homes\i\a\iannoth_slurgh\nt\AccountSettings\Desktop\rdbms_engine\Debug\rdbms_engine.lib
+     1>Done Building Project "\\toaster\homes\i\a\iannoth_slurgh\nt\AccountSettings\Desktop\rdbms_engine\rdbms_engine\rdbms_engine.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:03.53
