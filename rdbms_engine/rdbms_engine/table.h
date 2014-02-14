@@ -19,14 +19,25 @@ public:
 	table(string n, vector<string> cn, vector<unsigned int> ct, vector<unsigned int> pk);
 	vector<unsigned int> getPrimaryKeys();
 	void setAsQuery();
-	entity listByAttribute(string attribute_name); //not sure what this does
 	int getAttributeColumn(string column_name);
+	string getColumnName(int index);
 	void removeEntity(int entity_index);
 	entity getEntityAt(int index);
 	unsigned int getColumnTypeAt(int column_index);
 	entity getEntityWith(vector<attribute> primary_key);
 	void renameColumn(string new_name, int index);
 	string getName();
+	vector<unsigned int> getColumnTypes();
+	vector<string> getColumnNames();
+	vector<entity> getEntityList();
+	void setEntityAt(int index, entity new_entity);
+	int getNumOfEntities();
+	void addEntity(entity new_entity);
+	int numOfColumns();
+	void changeName(string new_name);
+	
 };
+
+bool operator==(table& t1, table& t2);
 
 #endif

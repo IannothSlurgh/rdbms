@@ -2,6 +2,7 @@
 
 table::table(){
 	error_code = 0;
+	is_query = false;
 }
 
 table::table(string n, vector<string> cn, vector<unsigned int> ct, vector<unsigned int> pk){
@@ -10,6 +11,7 @@ table::table(string n, vector<string> cn, vector<unsigned int> ct, vector<unsign
 	column_names = cn;
 	primary_keys = pk;
 	error_code = 0;
+	is_query = false;
 }
 
 vector<unsigned int> table::getPrimaryKeys(){
@@ -22,7 +24,7 @@ void table::setAsQuery(){
 
 int table::getAttributeColumn(string column_name){
 	for(unsigned int i = 0; i < column_names.size(); i++){
-		if(column_name.compare(column_names[i])){
+		if(column_name.compare(column_names[i]) == 0){
 			return i;
 		}
 	}
@@ -36,6 +38,10 @@ void table::removeEntity(int entity_index){
 
 entity table::getEntityAt(int index){
 	return entity_list[index];
+}
+
+string table::getColumnName(int index){
+	return column_names[index];
 }
 
 unsigned int table::getColumnTypeAt(int column_index){
@@ -75,4 +81,61 @@ void table::renameColumn(string new_name, int index){
 
 string table::getName(){
 	return name;
+}
+
+int table::getNumOfEntities(){
+	return entity_list.size();
+}
+
+void table::addEntity(entity new_entity){
+	//check attributes
+	entity_list.push_back(new_entity);
+}
+
+int table::numOfColumns(){
+	return column_names.size();
+}
+
+vector<unsigned int> table::getColumnTypes(){
+	return column_types;
+}
+
+vector<string> table::getColumnNames(){
+	return column_names;
+}
+
+vector<entity> table::getEntityList(){
+	return entity_list;
+}
+
+void table::changeName(string new_name){
+	name = new_name;
+}
+
+void table::setEntityAt(int index, entity new_entity){
+	entity_list[index] = new_entity;
+}
+
+bool operator==(table& t1, table& t2){
+	if(t1.getNumOfEntities() != t2.getNumOfEntities()){
+		return false;
+	}
+
+	if(t1.numOfColumns() != t2.numOfColumns()){
+		return false;
+	}
+
+	for(int i = 0; i < t1.numOfColumns(); i++){
+		if(t1.getColumnNames()[i].compare(t2.getColumnNames()[i]) != 0 || t1.getColumnTypes()[i] != t2.getColumnTypes()[i]){
+			return false;
+		}
+	}
+
+	for(int j = 0; j < t1.getEntityList().size(); j++){
+		if(!(t1.getEntityList()[j] == t2.getEntityList()[j])){
+			return false;
+		}
+	}
+
+	return true;
 }
