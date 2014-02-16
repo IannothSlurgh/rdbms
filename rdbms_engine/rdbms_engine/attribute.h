@@ -23,9 +23,6 @@ public:
 	int getLength();
 	string get_string_value();
 	int get_int_value();
-	unsigned int getType();
-	
 };
-bool operator==(attribute& a1, attribute& a2);
 
 #endif

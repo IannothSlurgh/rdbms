@@ -6,9 +6,6 @@
 #define CONDITION 1
 #define TYPE 2
 #define ATTR 3
-#define ERROR -1
-
-#include <iostream>
 
 class Condition
 {
@@ -21,8 +18,8 @@ private:
 	string op_one_type;
 	attribute op_one_attr;
 
-	int operand_two_code;//determines whether the second operand is a condition, attribute, or type of attribute
-	Condition* op_two_cond; 
+	int operand_two_code;
+	Condition* op_two_cond; //determines whether the second operand is a condition, attribute, or type of attribute
 	string op_two_type;
 	attribute op_two_attr;
 

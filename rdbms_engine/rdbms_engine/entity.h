@@ -20,7 +20,4 @@ public:
 	void emptyAttributeList();
 	void setAttributeAt(int index, attribute new_attribute);
 };
-
-bool operator==(entity& e1, entity& e2);
-
 #endif
