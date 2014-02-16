@@ -24,7 +24,7 @@ void table::setAsQuery(){
 
 int table::getAttributeColumn(string column_name){
 	for(unsigned int i = 0; i < column_names.size(); i++){
-		if(column_name.compare(column_names[i])){
+		if(column_name.compare(column_names[i]) == 0){
 			return i;
 		}
 	}
@@ -38,6 +38,10 @@ void table::removeEntity(int entity_index){
 
 entity table::getEntityAt(int index){
 	return entity_list[index];
+}
+
+string table::getColumnName(int index){
+	return column_names[index];
 }
 
 unsigned int table::getColumnTypeAt(int column_index){
@@ -110,4 +114,28 @@ void table::changeName(string new_name){
 
 void table::setEntityAt(int index, entity new_entity){
 	entity_list[index] = new_entity;
+}
+
+bool operator==(table& t1, table& t2){
+	if(t1.getNumOfEntities() != t2.getNumOfEntities()){
+		return false;
+	}
+
+	if(t1.numOfColumns() != t2.numOfColumns()){
+		return false;
+	}
+
+	for(int i = 0; i < t1.numOfColumns(); i++){
+		if(t1.getColumnNames()[i].compare(t2.getColumnNames()[i]) != 0 || t1.getColumnTypes()[i] != t2.getColumnTypes()[i]){
+			return false;
+		}
+	}
+
+	for(int j = 0; j < t1.getEntityList().size(); j++){
+		if(!(t1.getEntityList()[j] == t2.getEntityList()[j])){
+			return false;
+		}
+	}
+
+	return true;
 }

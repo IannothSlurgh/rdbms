@@ -2,7 +2,10 @@ using namespace std;
 #include "table.h"
 #include "Condition.h"
 
+#include <map>
 #define ERR_TOO_MANY_COLUMNS 0x20
+#define ERR_PRIMARY_KEY_MISMATCH 0x21
+#define ERR_COLUMN_MISMATCH 0x22
 
 class Database
 {
@@ -20,12 +23,14 @@ public:
 	void insertIntoTable(string table_name, vector<attribute> attr_list);
 	void updateEntity(string table_name, vector<string> attr_names, vector<attribute> attr_literals, Condition condition);
 	table project(vector<string> attr_list, table source_table);
-	table rename(vector<string> new_attr_names, table source_table);
+	table rename(vector<string> new_column_names, table original_table);
 	table setUnion(table table_one, table table_two);
 	table setDifference(table table_one, table table_two);
 	table crossProduct(table table_one, table table_two);
 	table naturalJoin(table table_one, table table_two);
-	table findTable(string table_name);
+	table& findTable(string table_name);
+	int getNumOfTables();
+	int indexOfTable(string table_name);
 };
 
 //maybe relationals return table or the name of the query

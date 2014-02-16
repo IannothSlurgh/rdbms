@@ -1,16 +1,19 @@
-﻿Build started 2/9/2014 6:21:34 PM.
-     1>Project "\\toaster\homes\i\a\iannoth_slurgh\nt\AccountSettings\Desktop\rdbms_engine\unit_test\unit_test.vcxproj" on node 2 (Build target(s)).
+﻿Build started 2/11/2014 12:32:20 AM.
+     1>Project "I:\CSCE_315\rdbms_engine\unit_test\unit_test.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
+         Q:\VS2012U3\VC\bin\CL.exe /c /IQ:\VS2012U3\VC\UnitTest\include /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDLL /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"stdafx.h" /Fp"Debug\unit_test.pch" /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /FC /errorReport:prompt stdafx.cpp
+         stdafx.cpp
          Q:\VS2012U3\VC\bin\CL.exe /c /IQ:\VS2012U3\VC\UnitTest\include /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDLL /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\unit_test.pch" /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /FC /errorReport:prompt unittest1.cpp
          unittest1.cpp
+     1>i:\csce_315\rdbms_engine\unit_test\unittest1.cpp(40): warning C4930: 'table empty_table(void)': prototyped function not called (was a variable definition intended?)
        Link:
-         Q:\VS2012U3\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"\\toaster\homes\i\a\iannoth_slurgh\nt\AccountSettings\Desktop\rdbms_engine\Debug\unit_test.dll" /INCREMENTAL /NOLOGO /LIBPATH:Q:\VS2012U3\VC\UnitTest\lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"\\toaster\homes\i\a\iannoth_slurgh\nt\AccountSettings\Desktop\rdbms_engine\Debug\unit_test.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"\\toaster\homes\i\a\iannoth_slurgh\nt\AccountSettings\Desktop\rdbms_engine\Debug\unit_test.lib" /MACHINE:X86 /DLL Debug\stdafx.obj
+         Q:\VS2012U3\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"I:\CSCE_315\rdbms_engine\Debug\unit_test.dll" /INCREMENTAL /NOLOGO /LIBPATH:Q:\VS2012U3\VC\UnitTest\lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"I:\CSCE_315\rdbms_engine\Debug\unit_test.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"I:\CSCE_315\rdbms_engine\Debug\unit_test.lib" /MACHINE:X86 /DLL Debug\stdafx.obj
          Debug\unittest1.obj
-         \\toaster\homes\i\a\iannoth_slurgh\nt\AccountSettings\Desktop\rdbms_engine\Debug\rdbms_engine.lib
-            Creating library \\toaster\homes\i\a\iannoth_slurgh\nt\AccountSettings\Desktop\rdbms_engine\Debug\unit_test.lib and object \\toaster\homes\i\a\iannoth_slurgh\nt\AccountSettings\Desktop\rdbms_engine\Debug\unit_test.exp
-         unit_test.vcxproj -> \\toaster\homes\i\a\iannoth_slurgh\nt\AccountSettings\Desktop\rdbms_engine\Debug\unit_test.dll
-     1>Done Building Project "\\toaster\homes\i\a\iannoth_slurgh\nt\AccountSettings\Desktop\rdbms_engine\unit_test\unit_test.vcxproj" (Build target(s)).
+         I:\CSCE_315\rdbms_engine\Debug\rdbms_engine.lib
+            Creating library I:\CSCE_315\rdbms_engine\Debug\unit_test.lib and object I:\CSCE_315\rdbms_engine\Debug\unit_test.exp
+         unit_test.vcxproj -> I:\CSCE_315\rdbms_engine\Debug\unit_test.dll
+     1>Done Building Project "I:\CSCE_315\rdbms_engine\unit_test\unit_test.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:14.89
+Time Elapsed 00:00:10.56

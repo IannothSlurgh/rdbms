@@ -1,17 +1,43 @@
-﻿Build started 2/9/2014 6:16:17 PM.
-     1>Project "\\toaster\homes\i\a\iannoth_slurgh\nt\AccountSettings\Desktop\rdbms_engine\rdbms_engine\rdbms_engine.vcxproj" on node 2 (Build target(s)).
+﻿Build started 2/11/2014 12:32:03 AM.
+     1>Project "I:\CSCE_315\rdbms_engine\rdbms_engine\rdbms_engine.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         Q:\VS2012U3\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt database.cpp
-         database.cpp
+         Q:\VS2012U3\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt attribute.cpp Condition.cpp Database.cpp entity.cpp Table.cpp
+         Table.cpp
+     1>i:\csce_315\rdbms_engine\rdbms_engine\table.cpp(134): warning C4018: '<' : signed/unsigned mismatch
+         entity.cpp
+         Database.cpp
+     1>i:\csce_315\rdbms_engine\rdbms_engine\database.cpp(13): warning C4172: returning address of local variable or temporary
+     1>i:\csce_315\rdbms_engine\rdbms_engine\database.cpp(196): warning C4018: '<' : signed/unsigned mismatch
+     1>i:\csce_315\rdbms_engine\rdbms_engine\database.cpp(199): warning C4018: '<' : signed/unsigned mismatch
+     1>i:\csce_315\rdbms_engine\rdbms_engine\database.cpp(202): warning C4018: '<' : signed/unsigned mismatch
+     1>i:\csce_315\rdbms_engine\rdbms_engine\database.cpp(205): warning C4018: '<' : signed/unsigned mismatch
+     1>i:\csce_315\rdbms_engine\rdbms_engine\database.cpp(208): warning C4018: '<' : signed/unsigned mismatch
+     1>i:\csce_315\rdbms_engine\rdbms_engine\database.cpp(211): warning C4018: '<' : signed/unsigned mismatch
+     1>i:\csce_315\rdbms_engine\rdbms_engine\database.cpp(217): warning C4018: '<' : signed/unsigned mismatch
+     1>i:\csce_315\rdbms_engine\rdbms_engine\database.cpp(218): warning C4018: '<' : signed/unsigned mismatch
+     1>i:\csce_315\rdbms_engine\rdbms_engine\database.cpp(225): warning C4018: '<' : signed/unsigned mismatch
+     1>i:\csce_315\rdbms_engine\rdbms_engine\database.cpp(230): warning C4018: '<' : signed/unsigned mismatch
+     1>i:\csce_315\rdbms_engine\rdbms_engine\database.cpp(232): warning C4018: '<' : signed/unsigned mismatch
+     1>i:\csce_315\rdbms_engine\rdbms_engine\database.cpp(246): warning C4018: '<' : signed/unsigned mismatch
+     1>i:\csce_315\rdbms_engine\rdbms_engine\database.cpp(347): warning C4018: '<' : signed/unsigned mismatch
+     1>i:\csce_315\rdbms_engine\rdbms_engine\database.cpp(355): warning C4018: '<' : signed/unsigned mismatch
+     1>i:\csce_315\rdbms_engine\rdbms_engine\database.cpp(358): warning C4018: '<' : signed/unsigned mismatch
+     1>i:\csce_315\rdbms_engine\rdbms_engine\database.cpp(383): warning C4018: '<' : signed/unsigned mismatch
+     1>i:\csce_315\rdbms_engine\rdbms_engine\database.cpp(481): warning C4018: '<' : signed/unsigned mismatch
+     1>i:\csce_315\rdbms_engine\rdbms_engine\database.cpp(491): warning C4018: '<' : signed/unsigned mismatch
+     1>i:\csce_315\rdbms_engine\rdbms_engine\database.cpp(494): warning C4018: '<' : signed/unsigned mismatch
+         Condition.cpp
+         attribute.cpp
+         Generating Code...
        Lib:
-         Q:\VS2012U3\VC\bin\Lib.exe /OUT:"\\toaster\homes\i\a\iannoth_slurgh\nt\AccountSettings\Desktop\rdbms_engine\Debug\rdbms_engine.lib" /NOLOGO Debug\attribute.obj
+         Q:\VS2012U3\VC\bin\Lib.exe /OUT:"I:\CSCE_315\rdbms_engine\Debug\rdbms_engine.lib" /NOLOGO Debug\attribute.obj
          Debug\Condition.obj
-         Debug\database.obj
+         Debug\Database.obj
          Debug\entity.obj
          Debug\Table.obj
-         rdbms_engine.vcxproj -> \\toaster\homes\i\a\iannoth_slurgh\nt\AccountSettings\Desktop\rdbms_engine\Debug\rdbms_engine.lib
-     1>Done Building Project "\\toaster\homes\i\a\iannoth_slurgh\nt\AccountSettings\Desktop\rdbms_engine\rdbms_engine\rdbms_engine.vcxproj" (Build target(s)).
+         rdbms_engine.vcxproj -> I:\CSCE_315\rdbms_engine\Debug\rdbms_engine.lib
+     1>Done Building Project "I:\CSCE_315\rdbms_engine\rdbms_engine\rdbms_engine.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:03.53
+Time Elapsed 00:00:07.14
