@@ -7,8 +7,6 @@ Condition::Condition(){
 Condition::Condition(table& t, string op){
 	data_table = t;
 	operation = op;
-	operand_one_code = ERROR;
-	operand_two_code = ERROR;
 }
 
 void Condition::addFirstOperand(Condition* c){
@@ -54,36 +52,35 @@ bool Condition::result(int row_num){
 		op_two_attr = data_table.getEntityAt(row_num).getAttribute(col_index);
 	}
 
-	if(operation.compare("&&") == 0){
+	if(operation.compare("&&")){
 		return (op_one_cond->result(row_num) && op_two_cond->result(row_num));
 	}
 
-	else if(operation.compare("||") == 0){
+	else if(operation.compare("||")){
 		return (op_one_cond->result(row_num) || op_two_cond->result(row_num));
 	}
 
-	else if(operation.compare("==") == 0){
-		cout << op_one_attr.get_string_value() << " " << op_two_attr.get_string_value() << endl;
-		return (op_one_attr.get_string_value().compare(op_two_attr.get_string_value()) == 0);
+	else if(operation.compare("==")){
+		return (op_one_attr.get_string_value() == op_two_attr.get_string_value());
 	}
 
-	else if(operation.compare("!=") == 0){
+	else if(operation.compare("!=")){
 		return (op_one_attr.get_string_value() != op_two_attr.get_string_value());
 	}
 
-	else if(operation.compare(">") == 0){
+	else if(operation.compare(">")){
 		return (op_one_attr.get_string_value() > op_two_attr.get_string_value());
 	}
 
-	else if(operation.compare("<") == 0){
+	else if(operation.compare("<")){
 		return (op_one_attr.get_string_value() < op_two_attr.get_string_value());
 	}
 
-	else if(operation.compare("<=") == 0){
+	else if(operation.compare("<=")){
 		return (op_one_attr.get_string_value() <= op_two_attr.get_string_value());
 	}
 
-	else if(operation.compare(">=") == 0){
+	else if(operation.compare(">=")){
 		return (op_one_attr.get_string_value() >= op_two_attr.get_string_value());
 	}
 	return false;

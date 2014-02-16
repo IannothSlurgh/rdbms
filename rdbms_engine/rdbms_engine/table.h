@@ -20,7 +20,6 @@ public:
 	vector<unsigned int> getPrimaryKeys();
 	void setAsQuery();
 	int getAttributeColumn(string column_name);
-	string getColumnName(int index);
 	void removeEntity(int entity_index);
 	entity getEntityAt(int index);
 	unsigned int getColumnTypeAt(int column_index);
@@ -35,9 +34,6 @@ public:
 	void addEntity(entity new_entity);
 	int numOfColumns();
 	void changeName(string new_name);
-	
 };
-
-bool operator==(table& t1, table& t2);
 
 #endif

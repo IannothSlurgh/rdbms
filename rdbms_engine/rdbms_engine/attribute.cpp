@@ -45,17 +45,3 @@ int attribute::get_int_value()
 
 	return num_value;
 }
-
-unsigned int attribute::getType(){
-	return type;
-}
-
-bool operator==(attribute& a1, attribute& a2){
-	if(a1.getType() != a2.getType()){
-		return false;
-	}
-	if(a1.getType() == STRING){
-		return ((a1.get_string_value().compare(a2.get_string_value())) == 0);
-	}
-	return a1.get_int_value() == a2.get_int_value();
-}
