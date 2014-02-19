@@ -82,6 +82,8 @@
     <ClInclude Include="Condition.h" />
     <ClInclude Include="Database.h" />
     <ClInclude Include="entity.h" />
+    <ClInclude Include="Expression.h" />
+    <ClInclude Include="Parser.h" />
     <ClInclude Include="table.h" />
   </ItemGroup>
   <ItemGroup>
@@ -89,6 +91,8 @@
     <ClCompile Include="Condition.cpp" />
     <ClCompile Include="Database.cpp" />
     <ClCompile Include="entity.cpp" />
+    <ClCompile Include="Expression.cpp" />
+    <ClCompile Include="Parser.cpp" />
     <ClCompile Include="Table.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

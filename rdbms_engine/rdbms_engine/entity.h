@@ -12,7 +12,7 @@ private:
 public:
 	entity(){};
 	void addIntAttribute(int num_value);
-	void addStringAttribute(string str_value, int str_length);
+	void addStringAttribute(string str_value);
 	void addAttribute(attribute new_attribute);
 	attribute getAttribute(int index);
 	int getNumOfAttributes();
@@ -20,4 +20,7 @@ public:
 	void emptyAttributeList();
 	void setAttributeAt(int index, attribute new_attribute);
 };
+
+bool operator==(entity& e1, entity& e2);
+
 #endif

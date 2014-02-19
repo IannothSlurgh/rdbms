@@ -1,12 +1,21 @@
 #include "Condition.h"
 
-Condition::Condition(){
+Condition::Condition() : data_table(table()){
 	
 }
 
-Condition::Condition(table& t, string op){
-	data_table = t;
+Condition::Condition(string op) : data_table(table()){
 	operation = op;
+	operand_one_code = ERROR;
+	operand_two_code = ERROR;
+	no_table = 1;
+}
+
+Condition::Condition(table t, string op) : data_table(t){
+	operation = op;
+	operand_one_code = ERROR;
+	operand_two_code = ERROR;
+	no_table = 0;
 }
 
 void Condition::addFirstOperand(Condition* c){
@@ -42,6 +51,10 @@ void Condition::addSecondOperand(attribute a){
 //assumption: operations && and || will only be used on two conditions
 //may want to add error handling on this
 bool Condition::result(int row_num){
+	if(operand_one_code == ERROR || operand_two_code == ERROR){
+		return false;
+	}
+
 	if(operand_one_code == TYPE){
 		int col_index = data_table.getAttributeColumn(op_one_type);
 		op_one_attr = data_table.getEntityAt(row_num).getAttribute(col_index);
@@ -52,36 +65,41 @@ bool Condition::result(int row_num){
 		op_two_attr = data_table.getEntityAt(row_num).getAttribute(col_index);
 	}
 
-	if(operation.compare("&&")){
+	if(operation.compare("&&") == 0){
 		return (op_one_cond->result(row_num) && op_two_cond->result(row_num));
 	}
 
-	else if(operation.compare("||")){
+	else if(operation.compare("||") == 0){
 		return (op_one_cond->result(row_num) || op_two_cond->result(row_num));
 	}
 
-	else if(operation.compare("==")){
-		return (op_one_attr.get_string_value() == op_two_attr.get_string_value());
+	else if(operation.compare("==") == 0){
+		cout << op_one_attr.get_string_value() << " " << op_two_attr.get_string_value() << endl;
+		return (op_one_attr.get_string_value().compare(op_two_attr.get_string_value()) == 0);
 	}
 
-	else if(operation.compare("!=")){
+	else if(operation.compare("!=") == 0){
 		return (op_one_attr.get_string_value() != op_two_attr.get_string_value());
 	}
 
-	else if(operation.compare(">")){
+	else if(operation.compare(">") == 0){
 		return (op_one_attr.get_string_value() > op_two_attr.get_string_value());
 	}
 
-	else if(operation.compare("<")){
+	else if(operation.compare("<") == 0){
 		return (op_one_attr.get_string_value() < op_two_attr.get_string_value());
 	}
 
-	else if(operation.compare("<=")){
+	else if(operation.compare("<=") == 0){
 		return (op_one_attr.get_string_value() <= op_two_attr.get_string_value());
 	}
 
-	else if(operation.compare(">=")){
+	else if(operation.compare(">=") == 0){
 		return (op_one_attr.get_string_value() >= op_two_attr.get_string_value());
 	}
 	return false;
+}
+
+void Condition::addReferenceTable(table new_table){
+	data_table = new_table;
 }
