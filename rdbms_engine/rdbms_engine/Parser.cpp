@@ -77,7 +77,6 @@ Condition Parser::parseCondition()
 
 	if(checkIfNext("("))
 	{
-		cout << "(" << endl;
 		token_queue.push("(");
 	}
 
@@ -110,12 +109,10 @@ Condition Parser::parseCondition()
 
 		if(checkIfNext("("))
 		{
-			cout << "(" << endl;
 			token_queue.push("(");
 		}
 		else if(checkIfNext("||"))
 		{
-			cout << "||" << endl;
 			if(compareTokens(prev_token, "||") > 0)
 			{
 				//do nothing
@@ -193,7 +190,6 @@ Condition Parser::parseCondition()
 		}
 		else if(checkIfNext("&&"))
 		{
-			cout << "&&" << endl;
 			if(compareTokens(prev_token, "&&") > 0){
 				//do nothing
 			}
@@ -254,43 +250,34 @@ Condition Parser::parseCondition()
 		}
 		else if(checkIfNext("=="))
 		{
-			cout << "==" << endl;
 			token_queue.push("==");
 		}
 		else if(checkIfNext("!="))
 		{
-			cout << "!=" << endl;
 			token_queue.push("!=");
 		}
 		else if(checkIfNext(">="))
 		{
-			cout << ">=" << endl;
 			token_queue.push(">=");
 		}
 		else if(checkIfNext("<="))
 		{
-			cout << "<=" << endl;
 			token_queue.push("<=");
 		}
 		else if(checkIfNext(">"))
 		{
-			cout << ">" << endl;
 			token_queue.push(">");
 		}
 		else if(checkIfNext("<"))
 		{
-			cout << "<" << endl;
 			token_queue.push("<");
 		}
 		else if(checkIfNext(")"))
 		{
-			cout << ")" << endl;
 			while(prev_token != "(")
 			{
-				cout << "prev = " << prev_token << endl;
 				if(prev_token != "&&" && prev_token != "||")
 				{
-					cout << "I am in here!" << endl;
 					Condition new_cond(prev_token);
 
 					string arg_two = arg_queue.top();
@@ -298,9 +285,6 @@ Condition Parser::parseCondition()
 					string arg_one = arg_queue.top();
 					arg_queue.pop();
 					
-					cout << "THIS = " << arg_two << endl;
-					cout << "Another = " << arg_one << endl;
-
 					if(isNumeric(arg_two))
 					{
 						new_cond.addSecondOperand(attribute(atoi(arg_two.c_str())));
@@ -309,7 +293,6 @@ Condition Parser::parseCondition()
 					{
 						int length = arg_two.length();
 						arg_two = arg_two.substr(1, length - 2);
-						cout << "arg_two = " << arg_two << "*" << endl;
 						new_cond.addSecondOperand(attribute(arg_two));
 					}
 					else
@@ -343,20 +326,16 @@ Condition Parser::parseCondition()
 					new_cond.addFirstOperand(condition_storage.back());
 					cond_queue.pop();
 					cond_queue.push(new_cond);
-					cout << "Size of storage = " << condition_storage.size() << endl;
+
 				}
 				token_queue.pop();
 				
 				prev_token = token_queue.top();
-				cout << "cond size = " << cond_queue.size() << endl;
-				cout << "token size = " << token_queue.size() << endl;
-				cout << "arg size = " << arg_queue.size() << endl;
 			}
 			token_queue.pop();
 		}
 		else if(checkIfNext(";"))
 		{
-			cout << ";" << endl;
 			while(!token_queue.empty())
 			{
 				if(prev_token == "$")
@@ -419,9 +398,6 @@ Condition Parser::parseCondition()
 				prev_token = token_queue.top();
 			}
 		}
-		cout << "cond size = " << cond_queue.size() << endl;
-		cout << "token size = " << token_queue.size() << endl;
-		cout << "arg size = " << arg_queue.size() << endl;
 	}
 	//at this point, there should only be one condition
 	return cond_queue.top();
@@ -452,7 +428,6 @@ table Parser::parseExpression()
 		new_cond.addReferenceTable(arg_table);
 		Expression new_expr("select", arg_table, new_cond);
 		new_table = new_expr.evaluate(); //evaluate the expression
-		cout << new_table << endl;
 		if(cmd_line[location] == ';')
 		{
 			return new_table;
@@ -617,23 +592,38 @@ Parser::Parser( string input, Database& _my_database, vector<string>& results )
 	
 	if( find( "OPEN" ) )
 	{
-		parseOpen();
+		if(parseOpen() == FAIL)
+		{
+			output.push_back("Error: Failure in parsing OPEN.");
+		}
 	}
 	else if( find( "CLOSE" ) )
 	{
-		parseClose();
+		if(parseClose() == FAIL)
+		{
+			output.push_back("Error: Failure in parsing CLOSE.");
+		}
 	}
 	else if( find( "WRITE" ) )
 	{
-		parseWrite();
+		if(parseWrite() == FAIL)
+		{
+			output.push_back("Error: Failure in parsing WRITE.");
+		}
 	}
 	else if( find( "EXIT" ))
 	{
-		parseExit();
+		if(parseExit() == FAIL)
+		{
+			output.push_back("Error: Failure in parsing EXIT.");
+		}
 	}
 	else if( find( "SHOW" ) )
 	{
-		parseShow();
+		if(parseShow() == FAIL)
+		{
+			output.push_back("Error: Failure in parsing SHOW.");
+		}
 	}
 	else if( find( "CREATE TABLE" ) )
 	{
@@ -644,19 +634,31 @@ Parser::Parser( string input, Database& _my_database, vector<string>& results )
 	}
 	else if( find( "DELETE FROM" ) )
 	{
-		parseDelete();
+		if(parseDelete() == FAIL)
+		{
+			output.push_back("Error: Failure in parsing DELETE FROM.");
+		}
 	}
 	else if( find( "INSERT INTO" ) )
 	{
-		parseInsert();
+		if(parseInsert() == FAIL)
+		{
+			output.push_back("Error: Failure in parsing INSERT INTO.");
+		}
 	}
 	else if( find( "UPDATE" ) )
 	{
-		parseUpdate();
+		if(parseUpdate() == FAIL)
+		{
+			output.push_back("Error: Failure in parsing UPDATE.");
+		}
 	}
 	else if( find("<-") )
 	{
-		parseQuery();
+		if(parseQuery() == FAIL)
+		{
+			output.push_back("Error: Failure in parsing query.");
+		}
 	}
 	else
 	{
@@ -722,7 +724,7 @@ void Parser::parseAllWhitespace(){
 }
 
 void Parser::removeWhitespaceFrom(string& str){
-	for(int i = 0; i < str.size(); i++)
+	for(unsigned int i = 0; i < str.size(); i++)
 	{
 		if(str[i] == ' ')
 		{
@@ -757,7 +759,6 @@ unsigned int Parser::parseOpen()
 	if( input.good() )
 	{
 		input >> to_be_added;
-		cout << to_be_added << endl;
 		if( !input.fail() && !input.bad() )
 		{
 			my_database.addTable( to_be_added );
@@ -779,9 +780,7 @@ unsigned int Parser::parseInsert()
 	string table_name = parseUntil( "VALUES FROM" );
 	removeWhitespaceFrom( table_name );
 	/*Check validity of table*/
-	cout << table_name << endl;
 	table & my_table = my_database.findTable( table_name );
-	cout << my_table << endl;
 	if( my_table.getName() == "" )
 	{
 		return FAIL;
@@ -848,7 +847,6 @@ unsigned int Parser::parseCreate() //Get primary keys, call my_database.create
 		string all_typed_attributes = parseUntil( "PRIMARY KEY" );
 		removeWhitespaceFrom( all_typed_attributes );
 		unsigned int comma_spot = all_typed_attributes.find( ",", 0 ); //Comma spot also is last close )
-
 		//parses the case where there is only one column name in the list
 		if(comma_spot == string::npos)
 		{
@@ -856,7 +854,6 @@ unsigned int Parser::parseCreate() //Get primary keys, call my_database.create
 			unsigned int varchar = all_typed_attributes.find( "VARCHAR", 0 );
 			unsigned int integer = all_typed_attributes.find( "INTEGER", 0 );
 
-			cout << "The only column name is " << column_name << endl;
 			//backtrack the location to the previous token parsed
 			if( integer != string::npos )
 			{
@@ -955,14 +952,14 @@ unsigned int Parser::parseCreate() //Get primary keys, call my_database.create
 			comma_spot = all_typed_attributes.find("," ,0); //Find next non-last item as indicated by comma.
 			if( comma_spot == string::npos )
 			{
-				comma_spot = all_typed_attributes.find(  ")",0 );
+				comma_spot = all_typed_attributes.rfind( ")" ); //This kills the bug.
 			}
 		}
 		/*Check for duplication in column names*/
-		for( int i = 0; i < column_names.size(); ++i )
+		for( unsigned int i = 0; i < column_names.size(); ++i )
 		{
 			string column_name = column_names.at( i );
-			for( int j = 0; j < column_names.size(); ++j )
+			for( unsigned int j = 0; j < column_names.size(); ++j )
 			{
 				if( ( i != j ) && ( column_name == column_names.at( j ) ) )
 				{
@@ -974,10 +971,10 @@ unsigned int Parser::parseCreate() //Get primary keys, call my_database.create
 		primary_key_names = parseAttributeList();
 		vector <unsigned int> primary_keys;
 		/*Find indices of primary keys and load them into vector*/
-		for( int i = 0; i < primary_key_names.size(); ++i )
+		for( unsigned int i = 0; i < primary_key_names.size(); ++i )
 		{
 			string primary_key_name = primary_key_names.at( i );
-			for( int j = 0; j < column_names.size(); ++j )
+			for( unsigned int j = 0; j < column_names.size(); ++j )
 			{
 				if( ( primary_key_name == column_names.at( j ) ) )
 				{
@@ -999,7 +996,7 @@ unsigned int Parser::parseCreate() //Get primary keys, call my_database.create
 	}
 }
 
-string formatString(string str, int max_size)
+string formatString(string str, unsigned int max_size)
 {
 	string new_string = str;
 	if(new_string.length() > max_size)
@@ -1037,7 +1034,7 @@ unsigned int Parser::parseShow()
 
 		int sum = 0;
 
-		for(int i = 0; i < col_name.size(); i++)
+		for( unsigned int i = 0; i < col_name.size(); i++)
 		{
 			temp += formatString(col_name[i], col_w[i]);
 			sum += (col_w[i] + 1);
@@ -1052,7 +1049,7 @@ unsigned int Parser::parseShow()
 		}
 		output.push_back(seperator);
 		
-		for(int i = 0; i < entity_list.size(); i++)
+		for( unsigned int i = 0; i < entity_list.size(); i++)
 		{
 			temp = "";
 			for(int j = 0; j < entity_list[i].getNumOfAttributes(); j++)
@@ -1194,7 +1191,7 @@ unsigned int Parser::parseUpdate()
 	int equal_count = 0;
 	int comma_count = 0;
 
-	for(int i = 0; i < attribute_and_literal.size(); i++)
+	for( unsigned int i = 0; i < attribute_and_literal.size(); i++)
 	{
 		string parse_temp = "";
 		while(attribute_and_literal[i] != '=' && attribute_and_literal[i] != ',' && i < attribute_and_literal.size())

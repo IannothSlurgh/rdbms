@@ -9,7 +9,7 @@
 #include <fstream>
 #define FAIL 0
 #define SUCCESS 1
-#define INT_WIDTH 15
+#define INT_WIDTH 5
 #define LITERAL 10
 #define RELATION_NAME 11
 #define ANOTHER_CONDITION 12

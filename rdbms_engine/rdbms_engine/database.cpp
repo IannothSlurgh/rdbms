@@ -44,7 +44,7 @@ void Database::dropTable(string table_name){
 void Database::deleteFromTable(string table_name, Condition condition){
 	table& target_table = findTable(table_name);
 	vector<int> indexes_to_delete;
-	for(unsigned int i = 0; i < target_table.getNumOfEntities(); i++){
+	for(int i = 0; i < target_table.getNumOfEntities(); i++){
 		if(condition.result(i)){//condition is true, remove entity at position i
 			indexes_to_delete.push_back(i); //once entity is removed, messes with size
 		}
@@ -75,7 +75,6 @@ void Database::insertIntoTable(string table_name, vector<attribute> attr_list){
 		attribute new_attribute = attr_list[i];
 		new_entity.addAttribute(new_attribute);
 	}
-
 	destination_table.addEntity(new_entity);
 }
 
@@ -144,7 +143,6 @@ table Database::project(vector<string> attr_list, table source_table){
 		}
 		new_table.addEntity(new_entity);
 	}
-	cout << "here" << endl;
 	return new_table;
 }
 
@@ -230,6 +228,9 @@ table Database::naturalJoin(table table_one, table table_two){
 	vector<string> new_table_column_names;
 	vector<entity> final_table_entities;
 
+	cout << table_one<<"\n";
+	cout << table_two<<"\n";
+
 	for(unsigned int i = 0; i < table_one_column_names.size(); i++){   // Add all column names, types, and entities into combined vectors
 		new_table_column_names.push_back(table_one_column_names[i]);
 	}
@@ -260,18 +261,19 @@ table Database::naturalJoin(table table_one, table table_two){
 	for(unsigned int i = 0; i < table_one_column_names.size(); i++){ // Delete Repeated columns
 		for(unsigned int k = 0; k < table_two_column_names.size(); k++){
 			if(table_one_column_names[i] == table_two_column_names[k]){
-				int index = i+table_two_column_names.size();
+				//int index = i+table_two_column_names.size();
+				int index = k+table_one_column_names.size();
 				removed_indexes.push_back(index); // Store removed indexes
 			}
 		}
 	}
 	for(unsigned int i = 0; i < removed_indexes.size(); i++){   // Remove repeated indexes
 		int index = removed_indexes[i];
-		new_table_column_names.erase(new_table_column_names.begin()+index);
-		new_table_column_widths.erase(new_table_column_widths.begin()+index);
-		new_table_column_types.erase(new_table_column_types.begin()+index);
+		new_table_column_names.erase(new_table_column_names.begin()+index-i);
+		new_table_column_widths.erase(new_table_column_widths.begin()+index-i);
+		new_table_column_types.erase(new_table_column_types.begin()+index-i);
 	}
-	for(unsigned int i = 0; i < new_table_entities.size(); i++){ // Add entities not in the deleted columns
+	/*for(unsigned int i = 0; i < new_table_entities.size(); i++){ // Add entities not in the deleted columns
 		entity e;
 		for(unsigned int k = 0; k < removed_indexes.size(); k++){
 			if(removed_indexes[k] == i){
@@ -283,8 +285,25 @@ table Database::naturalJoin(table table_one, table table_two){
 			}
 		}
 		final_table_entities.push_back(e);
-	}
+	}*/
 	
+	for(unsigned int i = 0; i < new_table_entities.size(); i++){ // Add entities not in the deleted columns
+		entity e;
+		for(unsigned int j = 0; j < new_table_entities[i].getNumOfAttributes(); j++)
+		{
+			for(unsigned int k = 0; k < removed_indexes.size(); k++){
+				if(removed_indexes[k] == j){
+					// Do Nothing
+				}
+				else{
+					attribute a = new_table_entities[i].getAttribute(j);
+					e.addAttribute(a);
+				}
+			}
+		}
+		final_table_entities.push_back(e);
+	}
+
 	vector<unsigned int> new_table_primary_keys;
 	unsigned int count = 0;
 	for(unsigned int i = 0; i < new_table_column_names.size(); i++){  // Make Primary Key
@@ -293,6 +312,12 @@ table Database::naturalJoin(table table_one, table table_two){
 	}
 	
 	table final_table(table_name, new_table_column_names, new_table_column_types, new_table_primary_keys, new_table_column_widths);
+
+	for(unsigned int i = 0; i < final_table_entities.size(); i++)
+	{
+		final_table.addEntity(final_table_entities[i]);
+	}
+
 	return final_table;
 }
 
@@ -574,12 +599,20 @@ int Database::getNumOfTables(){
 	return table_list.size();
 }
 
-void Database::addQuery(table new_query){
+void Database::addQuery(table new_query){ //This kills a different bug.
 	new_query.setAsQuery();
 	for(unsigned int i = 0; i < table_list.size(); i++){
 		if(table_list[i].getName() == new_query.getName()){
+			//table_list.erase(table_list.begin() + i);
 			table_list[i] = new_query;
+			if( table_list[i]== new_query )
+			{
+				cout << "Good\n";
+			}
+			else
+				cout << "Bad\n";
 			return;
+			//break;
 		}
 	}
 	table_list.push_back(new_query);

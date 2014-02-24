@@ -1,7 +1,7 @@
 #include "Condition.h"
 
 Condition::Condition(){
-	cout << "THis shouldn't happen!" << endl;
+	
 }
 
 Condition::Condition(string op){
@@ -54,7 +54,6 @@ void Condition::addSecondOperand(attribute a){
 //may want to add error handling on this
 bool Condition::result(int row_num){
 	if(operand_one_code == ERROR || operand_two_code == ERROR){
-		cout << "Condition doesn't work!" << endl;
 		return false;
 	}
 
@@ -77,7 +76,6 @@ bool Condition::result(int row_num){
 	}
 
 	else if(operation.compare("==") == 0){
-		cout << op_one_attr.get_string_value() << "==" << op_two_attr.get_string_value() << "*" << endl;
 		return (op_one_attr.get_string_value().compare(op_two_attr.get_string_value()) == 0);
 	}
 
@@ -104,7 +102,6 @@ bool Condition::result(int row_num){
 }
 
 void Condition::addReferenceTable(table new_table){
-	cout << operation << " " << operand_one_code << " " << operand_two_code << endl;
 	if(operand_one_code == CONDITION)
 	{
 		op_one_cond->addReferenceTable(new_table);

@@ -15,7 +15,7 @@ table::table(string n, vector<string> cn, vector<unsigned int> ct, vector<unsign
 	is_query = false;
 }
 
-vector<unsigned int> table::getPrimaryKeys(){
+vector<unsigned int> table::getPrimaryKeys() const{
 	return primary_keys;
 }
 
@@ -37,7 +37,7 @@ void table::removeEntity(int entity_index){
 	entity_list.erase(entity_list.begin() + entity_index);
 }
 
-entity table::getEntityAt(int index){
+entity table::getEntityAt(int index) const{
 	return entity_list[index];
 }
 
@@ -76,33 +76,69 @@ entity table::getEntityWith(vector<attribute> primary_key){
 	return entity();
 }
 
+//must correspond with the primary keys of the test table
+int table::entityExistsWith(vector<attribute> primary_attr)
+{
+	for(int i = 0; i < getNumOfEntities(); i++)
+	{
+		entity test_entity = entity_list[i];
+		bool control = true;
+		for(unsigned int j = 0; j < primary_keys.size(); j++)
+		{
+			if(test_entity.getAttribute(primary_keys[j]).get_string_value() != primary_attr[j].get_string_value())
+			{
+				control = false;
+				break;
+			}
+		}
+		if(control)
+		{
+			return i;
+		}
+	}
+	return -1;
+
+}
+
 void table::renameColumn(string new_name, int index){
 	column_names[index] = new_name;
 }
 
-string table::getName(){
+string table::getName() const{
 	return name;
 }
 
-int table::getNumOfEntities(){
+int table::getNumOfEntities() const{
 	return entity_list.size();
 }
 
 //ADD: check the primary keys to make sure that new_entity doesn't already exist in table
 void table::addEntity(entity new_entity){
-	//check attributes
-	entity_list.push_back(new_entity);
+	vector<attribute> primary_attributes;
+	for(unsigned int i = 0; i < primary_keys.size(); i++)
+	{
+		primary_attributes.push_back(new_entity.getAttribute(primary_keys[i]));
+	}
+	int index = entityExistsWith(primary_attributes);
+	if(index != -1)
+	{
+		entity_list[index] = new_entity;
+	}
+	else
+	{
+		entity_list.push_back(new_entity);
+	}
 }
 
 int table::numOfColumns(){
 	return column_names.size();
 }
 
-vector<unsigned int> table::getColumnTypes(){
+vector<unsigned int> table::getColumnTypes() const{
 	return column_types;
 }
 
-vector<string> table::getColumnNames(){
+ vector<string> table::getColumnNames() const{
 	return column_names;
 }
 
@@ -142,11 +178,11 @@ bool operator==(table& t1, table& t2){
 	return true;
 }
 
-bool table::checkQuery(){
+bool table::checkQuery() const{
 	return is_query;
 }
 
-vector<unsigned int> table::getColumnWidths()
+vector<unsigned int> table::getColumnWidths() const
 {
 	return col_width;
 }
@@ -195,7 +231,7 @@ ostream& operator<<(ostream& os, table& t)
 vector<string> splitString(string str)
 {
 	vector<string> str_list;
-	for(int i = 0; i < str.length(); i++)
+	for(unsigned int i = 0; i < str.length(); i++)
 	{
 		string temp = "";
 		while(str[i] != ' ' && i < str.length())
@@ -223,7 +259,7 @@ istream& operator>>(istream& is, table& t)
 	getline(is, temp);
 	vector<string> col_widths = splitString(temp);
  	vector<unsigned int> col_width_list;
-	for(int i = 0; i < col_widths.size(); i++)
+	for(unsigned int i = 0; i < col_widths.size(); i++)
 	{
 		col_width_list.push_back(atoi(col_widths[i].c_str()));
 	}
@@ -232,7 +268,7 @@ istream& operator>>(istream& is, table& t)
 	getline(is, temp);
 	vector<string> temp_p_keys = splitString(temp);
 	vector<unsigned int> p_keys;
-	for(int i = 0; i < temp_p_keys.size(); i++)
+	for(unsigned int i = 0; i < temp_p_keys.size(); i++)
 	{
 		p_keys.push_back(atoi(temp_p_keys[i].c_str()));
 	}
@@ -241,7 +277,7 @@ istream& operator>>(istream& is, table& t)
 	getline(is, temp);
 	vector<string> temp_col_types = splitString(temp);
 	vector<unsigned int> col_types;
-	for(int i = 0; i < temp_col_types.size(); i++)
+	for(unsigned int i = 0; i < temp_col_types.size(); i++)
 	{
 		col_types.push_back(atoi(temp_col_types[i].c_str()));
 	}
@@ -252,7 +288,7 @@ istream& operator>>(istream& is, table& t)
 	getline(is, temp);
 	vector<string> temp_col_names = splitString(temp);
 	vector<string> col_names_list;
-	for(int i = 0; i < temp_col_names.size(); i++)
+	for(unsigned int i = 0; i < temp_col_names.size(); i++)
 	{
 		col_names_list.push_back(temp_col_names[i]);
 	}
@@ -261,7 +297,6 @@ istream& operator>>(istream& is, table& t)
 	unsigned int num_of_entities = 0;
 	getline(is, temp);
 	num_of_entities = atoi(temp.c_str());
-	cout << "# = " << num_of_entities << endl;
 
 	table new_table(table_name, col_names_list, col_types, p_keys, col_width_list);
 
@@ -293,7 +328,7 @@ istream& operator>>(istream& is, table& t)
 	return is;
 }
 
-const table& table::operator=(table &t)
+table& table::operator=(const table &t)
 {
 	column_names = t.getColumnNames();
 	column_types = t.getColumnTypes();
