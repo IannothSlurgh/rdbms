@@ -33,11 +33,11 @@ public:
 	Condition(table t, string op);
 
 
-	void addFirstOperand(Condition* c);
+	void addFirstOperand(Condition c);
 	void addFirstOperand(string attribute_type);
 	void addFirstOperand(attribute a);
 
-	void addSecondOperand(Condition* c);
+	void addSecondOperand(Condition c);
 	void addSecondOperand(string attribute_type);
 	void addSecondOperand(attribute a);
 

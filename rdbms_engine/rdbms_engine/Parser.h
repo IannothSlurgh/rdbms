@@ -21,6 +21,7 @@ private:
 	string cmd_line; //The unparsed string that was input in the constructor
 	Database & my_database; //The database from which the parser was constructed.
 	vector<string>& output;
+	vector<Condition> condition_storage;
 public:
 	Parser( string input, Database & _my_database, vector<string>& results); //Determine if command- which command- else query- else garbage
 	unsigned int find( string token ); //Increment location 1 past the given token. Fail if not found.

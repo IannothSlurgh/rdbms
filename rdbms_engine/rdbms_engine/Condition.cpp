@@ -1,13 +1,15 @@
 #include "Condition.h"
 
-Condition::Condition() : data_table(table()){
-	
+Condition::Condition(){
+	cout << "THis shouldn't happen!" << endl;
 }
 
-Condition::Condition(string op) : data_table(table()){
+Condition::Condition(string op){
 	operation = op;
 	operand_one_code = ERROR;
 	operand_two_code = ERROR;
+	op_one_cond = new Condition;
+	op_two_cond = new Condition;
 	no_table = 1;
 }
 
@@ -18,9 +20,9 @@ Condition::Condition(table t, string op) : data_table(t){
 	no_table = 0;
 }
 
-void Condition::addFirstOperand(Condition* c){
+void Condition::addFirstOperand(Condition c){
 	operand_one_code = CONDITION;
-	op_one_cond = c;
+	op_one_cond = new Condition(c);
 }
 
 void Condition::addFirstOperand(string attribute_type){
@@ -33,9 +35,9 @@ void Condition::addFirstOperand(attribute a){
 	op_one_attr = a;
 }
 
-void Condition::addSecondOperand(Condition* c){
+void Condition::addSecondOperand(Condition c){
 	operand_two_code = CONDITION;
-	op_two_cond = c;
+	op_two_cond = new Condition(c);
 }
 
 void Condition::addSecondOperand(string attribute_type){
@@ -52,6 +54,7 @@ void Condition::addSecondOperand(attribute a){
 //may want to add error handling on this
 bool Condition::result(int row_num){
 	if(operand_one_code == ERROR || operand_two_code == ERROR){
+		cout << "Condition doesn't work!" << endl;
 		return false;
 	}
 
@@ -74,7 +77,7 @@ bool Condition::result(int row_num){
 	}
 
 	else if(operation.compare("==") == 0){
-		cout << op_one_attr.get_string_value() << " " << op_two_attr.get_string_value() << endl;
+		cout << op_one_attr.get_string_value() << "==" << op_two_attr.get_string_value() << "*" << endl;
 		return (op_one_attr.get_string_value().compare(op_two_attr.get_string_value()) == 0);
 	}
 
@@ -83,23 +86,32 @@ bool Condition::result(int row_num){
 	}
 
 	else if(operation.compare(">") == 0){
-		return (op_one_attr.get_string_value() > op_two_attr.get_string_value());
+		return (op_one_attr.get_int_value() > op_two_attr.get_int_value());
 	}
 
 	else if(operation.compare("<") == 0){
-		return (op_one_attr.get_string_value() < op_two_attr.get_string_value());
+		return (op_one_attr.get_int_value() < op_two_attr.get_int_value());
 	}
 
 	else if(operation.compare("<=") == 0){
-		return (op_one_attr.get_string_value() <= op_two_attr.get_string_value());
+		return (op_one_attr.get_int_value() <= op_two_attr.get_int_value());
 	}
 
 	else if(operation.compare(">=") == 0){
-		return (op_one_attr.get_string_value() >= op_two_attr.get_string_value());
+		return (op_one_attr.get_int_value() >= op_two_attr.get_int_value());
 	}
 	return false;
 }
 
 void Condition::addReferenceTable(table new_table){
+	cout << operation << " " << operand_one_code << " " << operand_two_code << endl;
+	if(operand_one_code == CONDITION)
+	{
+		op_one_cond->addReferenceTable(new_table);
+	}
+	if(operand_two_code == CONDITION)
+	{
+		op_two_cond->addReferenceTable(new_table);
+	}
 	data_table = new_table;
 }

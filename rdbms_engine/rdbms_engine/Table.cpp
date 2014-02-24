@@ -192,52 +192,88 @@ ostream& operator<<(ostream& os, table& t)
 	return os;
 }
 
+vector<string> splitString(string str)
+{
+	vector<string> str_list;
+	for(int i = 0; i < str.length(); i++)
+	{
+		string temp = "";
+		while(str[i] != ' ' && i < str.length())
+		{
+			temp += str[i];
+			i++;
+		}
+		while(str[i] == ' ' && i < str.length())
+		{
+			i++;
+		}
+		i--;
+		cout << "in split: " << temp << endl;
+		str_list.push_back(temp);
+	}
+	return str_list;
+}
+
 istream& operator>>(istream& is, table& t)
 {
 	string table_name = "";
 	getline(is, table_name);
 
-	string temp_col_width;
-	vector<unsigned int> col_width_list;
-	while(getline(is, temp_col_width, ' '))
+	string temp;
+	getline(is, temp);
+	vector<string> col_widths = splitString(temp);
+ 	vector<unsigned int> col_width_list;
+	for(int i = 0; i < col_widths.size(); i++)
 	{
-		col_width_list.push_back(atoi(temp_col_width.c_str()));
+		col_width_list.push_back(atoi(col_widths[i].c_str()));
 	}
+	cout << temp << endl;
 
-	string temp_p_keys = 0;
+	getline(is, temp);
+	vector<string> temp_p_keys = splitString(temp);
 	vector<unsigned int> p_keys;
-	while(getline(is, temp_p_keys, ' '))
+	for(int i = 0; i < temp_p_keys.size(); i++)
 	{
-		p_keys.push_back(atoi(temp_p_keys.c_str()));
+		p_keys.push_back(atoi(temp_p_keys[i].c_str()));
 	}
+	cout << temp << endl;
 
-	string temp_col_types = "";
+	getline(is, temp);
+	vector<string> temp_col_types = splitString(temp);
 	vector<unsigned int> col_types;
-	while(getline(is, temp_col_types, ' '))
+	for(int i = 0; i < temp_col_types.size(); i++)
 	{
-		col_types.push_back(atoi(temp_col_types.c_str()));
+		col_types.push_back(atoi(temp_col_types[i].c_str()));
 	}
+	cout << temp << endl;
 
-	unsigned int num_of_entities;
-	is >> num_of_entities;
-
-	string temp_col_names = "";
-	vector<string> col_names_list;
-	while(getline(is, temp_col_names, ' '))
-	{
-		col_names_list.push_back(temp_col_names);
-	}
 	
+
+	getline(is, temp);
+	vector<string> temp_col_names = splitString(temp);
+	vector<string> col_names_list;
+	for(int i = 0; i < temp_col_names.size(); i++)
+	{
+		col_names_list.push_back(temp_col_names[i]);
+	}
+	cout << temp << endl;
+
+	unsigned int num_of_entities = 0;
+	getline(is, temp);
+	num_of_entities = atoi(temp.c_str());
+	cout << "# = " << num_of_entities << endl;
+
 	table new_table(table_name, col_names_list, col_types, p_keys, col_width_list);
 
-	for(unsigned int i = 0; i < num_of_entities; i--)
+	for(unsigned int i = 0; i < num_of_entities; i++)
 	{
 		entity new_entity;
-		
-		for(unsigned int j = 0; j < col_types.size(); j++)
+		getline(is, temp);
+		cout << temp << endl;
+		vector<string> attr_lists = splitString(temp);
+		for(unsigned int j = 0; j < attr_lists.size(); j++)
 		{
-			string line = "";
-			getline(is, line, ' ');
+			string line = attr_lists[j];
 			if(col_types[j] == STRING)
 			{
 				attribute new_attr(line);

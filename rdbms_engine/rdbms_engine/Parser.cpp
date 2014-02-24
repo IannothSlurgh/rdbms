@@ -67,21 +67,33 @@ bool isNumeric(string str){
 	return true;
 }
 
-Condition Parser::parseCondition()
-{
-	stack<string> token_queue;
+stack<string> token_queue;
 	stack<Condition> cond_queue;
 	stack<string> arg_queue;
 
+Condition Parser::parseCondition()
+{
+	
+
 	if(checkIfNext("("))
 	{
+		cout << "(" << endl;
 		token_queue.push("(");
 	}
 
-	while(!token_queue.empty()){
+	else
+	{
+		token_queue.push("$");
+	}
+
+	while(!token_queue.empty())
+	{
 		string arg = "";
 		//add characters to arg until a token is found
-		while(cmd_line[location] != '(' && cmd_line[location] != ')' && cmd_line[location] != '!' && cmd_line[location] != '=' && cmd_line[location] != '>' && cmd_line[location] != '<' && cmd_line[location] != '&' && cmd_line[location] != '|' && cmd_line[location] != ';'){
+		while(cmd_line[location] != '(' && cmd_line[location] != ')' && cmd_line[location] != '!' && cmd_line[location] != '=' 
+			&& cmd_line[location] != '>' && cmd_line[location] != '<' && cmd_line[location] != '&' 
+			&& cmd_line[location] != '|' && cmd_line[location] != ';')
+		{
 			arg += cmd_line[location];
 			location++;
 		}
@@ -98,10 +110,12 @@ Condition Parser::parseCondition()
 
 		if(checkIfNext("("))
 		{
+			cout << "(" << endl;
 			token_queue.push("(");
 		}
 		else if(checkIfNext("||"))
 		{
+			cout << "||" << endl;
 			if(compareTokens(prev_token, "||") > 0)
 			{
 				//do nothing
@@ -112,9 +126,11 @@ Condition Parser::parseCondition()
 				if(prev_token == "&&")
 				{
 					Condition new_cond(prev_token);
-					new_cond.addSecondOperand(&cond_queue.top());
+					condition_storage.push_back(cond_queue.top());
+					new_cond.addSecondOperand(condition_storage.back());
 					cond_queue.pop();
-					new_cond.addFirstOperand(&cond_queue.top());
+					condition_storage.push_back(cond_queue.top());
+					new_cond.addFirstOperand(condition_storage.back());
 					cond_queue.pop();
 					cond_queue.push(new_cond);
 				}
@@ -134,8 +150,8 @@ Condition Parser::parseCondition()
 					}
 					else if(arg_two[0] == '\"' && arg_two[arg_two.length() - 1] == '\"')
 					{
-						arg_two.erase(0);
-						arg_two.erase(arg_two.end());
+						int length = arg_two.length();
+						arg_two = arg_two.substr(1, length - 2);
 						new_cond.addSecondOperand(attribute(arg_two));
 					}
 					else
@@ -149,8 +165,8 @@ Condition Parser::parseCondition()
 					}
 					else if(arg_one[0] == '\"' && arg_one[arg_one.length() - 1] == '\"')
 					{
-						arg_two.erase(0);
-						arg_two.erase(arg_one.end());
+						int length = arg_one.length();
+						arg_one = arg_one.substr(1, length - 2);
 						new_cond.addFirstOperand(attribute(arg_one));
 					}
 					else
@@ -165,9 +181,11 @@ Condition Parser::parseCondition()
 			else
 			{
 				Condition new_cond(prev_token);
-				new_cond.addSecondOperand(&cond_queue.top());
+				condition_storage.push_back(cond_queue.top());
+				new_cond.addSecondOperand(condition_storage.back());
 				cond_queue.pop();
-				new_cond.addFirstOperand(&cond_queue.top());
+				condition_storage.push_back(cond_queue.top());
+				new_cond.addFirstOperand(condition_storage.back());
 				cond_queue.pop();
 				cond_queue.push(new_cond);
 			}
@@ -175,6 +193,7 @@ Condition Parser::parseCondition()
 		}
 		else if(checkIfNext("&&"))
 		{
+			cout << "&&" << endl;
 			if(compareTokens(prev_token, "&&") > 0){
 				//do nothing
 			}
@@ -195,8 +214,8 @@ Condition Parser::parseCondition()
 				}
 				else if(arg_two[0] == '\"' && arg_two[arg_two.length() - 1] == '\"')
 				{
-					arg_two.erase(0);
-					arg_two.erase(arg_two.end());
+					int length = arg_two.length();
+					arg_two = arg_two.substr(1, length - 2);
 					new_cond.addSecondOperand(attribute(arg_two));
 				}
 				else
@@ -210,8 +229,8 @@ Condition Parser::parseCondition()
 				}
 				else if(arg_one[0] == '\"' && arg_one[arg_one.length() - 1] == '\"')
 				{
-					arg_two.erase(0);
-					arg_two.erase(arg_one.end());
+					int length = arg_one.length();
+					arg_one = arg_one.substr(1, length - 2);
 					new_cond.addFirstOperand(attribute(arg_one));
 				}
 				else
@@ -223,9 +242,11 @@ Condition Parser::parseCondition()
 			else
 			{
 				Condition new_cond(prev_token);
-				new_cond.addSecondOperand(&cond_queue.top());
+				condition_storage.push_back(cond_queue.top());
+				new_cond.addSecondOperand(condition_storage.back());
 				cond_queue.pop();
-				new_cond.addFirstOperand(&cond_queue.top());
+				condition_storage.push_back(cond_queue.top());
+				new_cond.addFirstOperand(condition_storage.back());
 				cond_queue.pop();
 				cond_queue.push(new_cond);
 			}
@@ -233,40 +254,52 @@ Condition Parser::parseCondition()
 		}
 		else if(checkIfNext("=="))
 		{
+			cout << "==" << endl;
 			token_queue.push("==");
 		}
 		else if(checkIfNext("!="))
 		{
+			cout << "!=" << endl;
 			token_queue.push("!=");
 		}
 		else if(checkIfNext(">="))
 		{
+			cout << ">=" << endl;
 			token_queue.push(">=");
 		}
 		else if(checkIfNext("<="))
 		{
+			cout << "<=" << endl;
 			token_queue.push("<=");
 		}
 		else if(checkIfNext(">"))
 		{
+			cout << ">" << endl;
 			token_queue.push(">");
 		}
 		else if(checkIfNext("<"))
 		{
+			cout << "<" << endl;
 			token_queue.push("<");
 		}
 		else if(checkIfNext(")"))
 		{
+			cout << ")" << endl;
 			while(prev_token != "(")
 			{
+				cout << "prev = " << prev_token << endl;
 				if(prev_token != "&&" && prev_token != "||")
 				{
+					cout << "I am in here!" << endl;
 					Condition new_cond(prev_token);
 
 					string arg_two = arg_queue.top();
 					arg_queue.pop();
 					string arg_one = arg_queue.top();
 					arg_queue.pop();
+					
+					cout << "THIS = " << arg_two << endl;
+					cout << "Another = " << arg_one << endl;
 
 					if(isNumeric(arg_two))
 					{
@@ -274,8 +307,9 @@ Condition Parser::parseCondition()
 					}
 					else if(arg_two[0] == '\"' && arg_two[arg_two.length() - 1] == '\"')
 					{
-						arg_two.erase(0);
-						arg_two.erase(arg_two.end());
+						int length = arg_two.length();
+						arg_two = arg_two.substr(1, length - 2);
+						cout << "arg_two = " << arg_two << "*" << endl;
 						new_cond.addSecondOperand(attribute(arg_two));
 					}
 					else
@@ -289,8 +323,8 @@ Condition Parser::parseCondition()
 					}
 					else if(arg_one[0] == '\"' && arg_one[arg_one.length() - 1] == '\"')
 					{
-						arg_two.erase(0);
-						arg_two.erase(arg_one.end());
+						int length = arg_one.length();
+						arg_one = arg_one.substr(1, length - 2);
 						new_cond.addFirstOperand(attribute(arg_one));
 					}
 					else
@@ -302,32 +336,37 @@ Condition Parser::parseCondition()
 				else
 				{
 					Condition new_cond(prev_token);
-					new_cond.addSecondOperand(&cond_queue.top());
+					condition_storage.push_back(cond_queue.top());
+					new_cond.addSecondOperand(condition_storage.back());
 					cond_queue.pop();
-					new_cond.addFirstOperand(&cond_queue.top());
+					condition_storage.push_back(cond_queue.top());
+					new_cond.addFirstOperand(condition_storage.back());
 					cond_queue.pop();
 					cond_queue.push(new_cond);
-
+					cout << "Size of storage = " << condition_storage.size() << endl;
 				}
 				token_queue.pop();
 				
 				prev_token = token_queue.top();
+				cout << "cond size = " << cond_queue.size() << endl;
+				cout << "token size = " << token_queue.size() << endl;
+				cout << "arg size = " << arg_queue.size() << endl;
 			}
 			token_queue.pop();
-			if(token_queue.size() == 0)
-			{
-				Condition c = cond_queue.top();
-				return c;
-			}
 		}
 		else if(checkIfNext(";"))
 		{
+			cout << ";" << endl;
 			while(!token_queue.empty())
 			{
-				if(prev_token != "&&" && prev_token != "||")
+				if(prev_token == "$")
+				{
+					token_queue.pop();
+					break;
+				}
+				else if(prev_token != "&&" && prev_token != "||")
 				{
 					Condition new_cond(prev_token);
-
 					string arg_two = arg_queue.top();
 					arg_queue.pop();
 					string arg_one = arg_queue.top();
@@ -339,8 +378,8 @@ Condition Parser::parseCondition()
 					}
 					else if(arg_two[0] == '\"' && arg_two[arg_two.length() - 1] == '\"')
 					{
-						arg_two.erase(0);
-						arg_two.erase(arg_two.end());
+						int length = arg_two.length();
+						arg_two = arg_two.substr(1, length - 2);
 						new_cond.addSecondOperand(attribute(arg_two));
 					}
 					else
@@ -354,8 +393,8 @@ Condition Parser::parseCondition()
 					}
 					else if(arg_one[0] == '\"' && arg_one[arg_one.length() - 1] == '\"')
 					{
-						arg_two.erase(0);
-						arg_two.erase(arg_one.end());
+						int length = arg_one.length();
+						arg_one = arg_one.substr(1, length - 2);
 						new_cond.addFirstOperand(attribute(arg_one));
 					}
 					else
@@ -368,14 +407,21 @@ Condition Parser::parseCondition()
 				else
 				{
 					Condition new_cond(prev_token);
-					new_cond.addSecondOperand(&cond_queue.top());
+					condition_storage.push_back(cond_queue.top());
+					new_cond.addSecondOperand(condition_storage.back());
 					cond_queue.pop();
-					new_cond.addFirstOperand(&cond_queue.top());
+					condition_storage.push_back(cond_queue.top());
+					new_cond.addFirstOperand(condition_storage.back());
 					cond_queue.pop();
 					cond_queue.push(new_cond);
 				}
+				token_queue.pop();
+				prev_token = token_queue.top();
 			}
 		}
+		cout << "cond size = " << cond_queue.size() << endl;
+		cout << "token size = " << token_queue.size() << endl;
+		cout << "arg size = " << arg_queue.size() << endl;
 	}
 	//at this point, there should only be one condition
 	return cond_queue.top();
@@ -591,7 +637,10 @@ Parser::Parser( string input, Database& _my_database, vector<string>& results )
 	}
 	else if( find( "CREATE TABLE" ) )
 	{
-		parseCreate();
+		if(parseCreate() == FAIL)
+		{
+			output.push_back("Error: Failure in parsing CREATE TABLE.");
+		}
 	}
 	else if( find( "DELETE FROM" ) )
 	{
@@ -611,9 +660,9 @@ Parser::Parser( string input, Database& _my_database, vector<string>& results )
 	}
 	else
 	{
-		results.push_back("Error: Could not find command.");
+		output.push_back("Error: Could not find command.");
 	}
-	results.push_back("");
+	output.push_back("");
 }
 
 string Parser::parseUntil( string end_token )
@@ -708,6 +757,7 @@ unsigned int Parser::parseOpen()
 	if( input.good() )
 	{
 		input >> to_be_added;
+		cout << to_be_added << endl;
 		if( !input.fail() && !input.bad() )
 		{
 			my_database.addTable( to_be_added );
@@ -729,7 +779,9 @@ unsigned int Parser::parseInsert()
 	string table_name = parseUntil( "VALUES FROM" );
 	removeWhitespaceFrom( table_name );
 	/*Check validity of table*/
+	cout << table_name << endl;
 	table & my_table = my_database.findTable( table_name );
+	cout << my_table << endl;
 	if( my_table.getName() == "" )
 	{
 		return FAIL;
@@ -796,6 +848,60 @@ unsigned int Parser::parseCreate() //Get primary keys, call my_database.create
 		string all_typed_attributes = parseUntil( "PRIMARY KEY" );
 		removeWhitespaceFrom( all_typed_attributes );
 		unsigned int comma_spot = all_typed_attributes.find( ",", 0 ); //Comma spot also is last close )
+
+		//parses the case where there is only one column name in the list
+		if(comma_spot == string::npos)
+		{
+			string column_name = "";
+			unsigned int varchar = all_typed_attributes.find( "VARCHAR", 0 );
+			unsigned int integer = all_typed_attributes.find( "INTEGER", 0 );
+
+			cout << "The only column name is " << column_name << endl;
+			//backtrack the location to the previous token parsed
+			if( integer != string::npos )
+			{
+				column_types.push_back( INTEGER );
+				string column_name = all_typed_attributes.substr( 0, integer );
+				removeWhitespaceFrom(column_name);
+				column_names.push_back( column_name );
+				column_lengths.push_back( INT_WIDTH );
+			}
+			else if( varchar != string::npos )
+			{
+				column_name = all_typed_attributes.substr( 0, varchar );
+				removeWhitespaceFrom(column_name);
+				unsigned int open = all_typed_attributes.find( "(", 0 );
+				unsigned int close = all_typed_attributes.find( ")", 0 );
+				if( open != string::npos && close != string::npos ) //Both parenthesis found
+				{
+					if( ( close > open ) && ( open > varchar ) && ( close > varchar ) ) //Order is correct
+					{
+						string length = all_typed_attributes.substr( open + 1, close - open - 1 );
+						unsigned int length_as_int = atoi( length.c_str() );
+						if( length_as_int == 0 )
+						{
+							return FAIL;
+						}
+						column_lengths.push_back( length_as_int );
+						column_names.push_back( column_name );
+						column_types.push_back( STRING );
+					}
+					else
+					{
+						return FAIL;
+					}
+				}
+				else
+				{
+					return FAIL;
+				}
+			}
+			else
+			{
+				return FAIL;
+			}
+		}
+
 		while( comma_spot != string::npos )//While a delimiting comma is found or last item is followed by )
 		{
 			string typed_attribute = all_typed_attributes.substr( 0, comma_spot ); //Get typed attribute string
@@ -893,6 +999,28 @@ unsigned int Parser::parseCreate() //Get primary keys, call my_database.create
 	}
 }
 
+string formatString(string str, int max_size)
+{
+	string new_string = str;
+	if(new_string.length() > max_size)
+	{
+		new_string = new_string.substr(0, max_size);
+		new_string[new_string.length() - 1] = '.';
+		new_string[new_string.length() - 2] = '.';
+		new_string[new_string.length() - 3] = '.';
+	}
+	else
+	{
+		int num_of_space = max_size - new_string.length();
+		for(int i = 0; i < num_of_space; i++)
+		{
+			new_string += ' ';
+		}
+	}
+	new_string += ' ';
+	return new_string;
+}
+
 unsigned int Parser::parseShow()
 {
 	table data_table = parseExpression();
@@ -906,18 +1034,30 @@ unsigned int Parser::parseShow()
 		vector<string> col_name = data_table.getColumnNames();
 		vector<entity> entity_list = data_table.getEntityList();
 		string temp;
+
+		int sum = 0;
+
 		for(int i = 0; i < col_name.size(); i++)
 		{
-			temp += (col_name[i] + " ");
+			temp += formatString(col_name[i], col_w[i]);
+			sum += (col_w[i] + 1);
 		}
-
 		output.push_back(temp);
+
+		string seperator = "";
+		while(sum > 0)
+		{
+			seperator += '-';
+			sum--;
+		}
+		output.push_back(seperator);
+		
 		for(int i = 0; i < entity_list.size(); i++)
 		{
 			temp = "";
 			for(int j = 0; j < entity_list[i].getNumOfAttributes(); j++)
 			{
-				temp += (entity_list[i].getAttribute(j).get_string_value() + " ");
+				temp += formatString(entity_list[i].getAttribute(j).get_string_value(), col_w[j]);
 			}
 			output.push_back(temp);
 		}
@@ -1029,23 +1169,70 @@ vector<attribute> Parser::parseLiteralList()
 unsigned int Parser::parseUpdate()
 {
 	string table_name = parseUntil("SET");
+
+	if(table_name == "")
+	{
+		return FAIL;
+	}
+
 	string attribute_and_literal = parseUntil("WHERE");
+
+	if(attribute_and_literal == "")
+	{
+		return FAIL;
+	}
+	
+	removeWhitespaceFrom(table_name);
+	removeWhitespaceFrom(attribute_and_literal);
 	
 	Condition cond = parseCondition();
+	cond.addReferenceTable(my_database.findTable(table_name));
 
-	istringstream iss(attribute_and_literal);
-	vector<string> to_parse;
-	int i = 0;
-	while(iss.good())
-	{
-		iss >> to_parse[i];
-		i++;
-	}
 	vector<string> attribute_list;
-	vector<attribute> attribute_lit;
-	attribute_list.push_back(to_parse[0]);
-	attribute_lit.push_back(attribute(to_parse[2]));
+	vector<attribute> literal_list;
 
-	my_database.updateEntity(table_name, attribute_list, attribute_lit, cond);
+	int equal_count = 0;
+	int comma_count = 0;
+
+	for(int i = 0; i < attribute_and_literal.size(); i++)
+	{
+		string parse_temp = "";
+		while(attribute_and_literal[i] != '=' && attribute_and_literal[i] != ',' && i < attribute_and_literal.size())
+		{
+			parse_temp += attribute_and_literal[i];
+			i++;
+		}
+
+		removeWhitespaceFrom(parse_temp);
+
+		if(attribute_and_literal[i] == '=')
+		{
+			equal_count++;
+			if(equal_count <= comma_count)
+			{
+				return FAIL;
+			}
+			attribute_list.push_back(parse_temp);
+			i++;
+		}
+		else
+		{
+			comma_count++;
+			if(isNumeric(parse_temp))
+			{
+				literal_list.push_back(attribute(atoi(parse_temp.c_str())));
+			}
+			else if(parse_temp[0] == '\"' && parse_temp[parse_temp.length() - 1] == '\"')
+			{
+				int length = parse_temp.length();
+				parse_temp = parse_temp.substr(1, length - 2);
+				literal_list.push_back(attribute(parse_temp));
+			}
+			
+			i++;
+		}
+	}
+
+	my_database.updateEntity(table_name, attribute_list, literal_list, cond);
 	return SUCCESS;
 }

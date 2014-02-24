@@ -188,7 +188,7 @@ namespace unit_test
 			test_table.addEntity(e4);
 			test_table.addEntity(e5);
 			// Check if there's a table on the database with the same inputs as the expected table
-			Assert::IsTrue(empty_results2.size() == 7);
+			Assert::IsTrue(empty_results2.size() == 8);
 			//note: it is one more for cushion between inputs and outputs
 		}
 		TEST_METHOD(writeTableCommandTest){

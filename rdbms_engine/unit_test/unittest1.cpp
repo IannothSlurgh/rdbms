@@ -231,7 +231,7 @@ namespace unit_test
 			column_name.push_back("Type1");
 			column_name2.push_back("Type2");
 			column_name_combined.push_back("Type1");
-			column_name_combined.push_back("Type2$");
+			column_name_combined.push_back("Type2");
 
 			column_type.push_back(1);
 			column_type2.push_back(2);

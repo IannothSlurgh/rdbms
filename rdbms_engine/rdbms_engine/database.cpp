@@ -43,10 +43,16 @@ void Database::dropTable(string table_name){
 //removes an entity(s) from a specific table when the condition is true 
 void Database::deleteFromTable(string table_name, Condition condition){
 	table& target_table = findTable(table_name);
-	for(unsigned int i = 0; i < table_list.size(); i++){
+	vector<int> indexes_to_delete;
+	for(unsigned int i = 0; i < target_table.getNumOfEntities(); i++){
 		if(condition.result(i)){//condition is true, remove entity at position i
-			target_table.removeEntity(i);
+			indexes_to_delete.push_back(i); //once entity is removed, messes with size
 		}
+	}
+
+	for(unsigned int j = 0; j < indexes_to_delete.size(); j++){
+		int delete_index = indexes_to_delete[j] - j;
+		target_table.removeEntity(delete_index);
 	}
 }
 
@@ -181,7 +187,8 @@ table Database::crossProduct(table table_one, table table_two){
 	}
 	for(unsigned int i = 0; i < cn_two.size(); i++)	// Add second table's column names to the name vector
 	{
-		string renamed = cn_two[i]+"$";	// Add identifier to have a difference between the original tables
+		string renamed = cn_two[i];	// Add identifier to have a difference between the original tables
+		//removed the identifier, was inferring with advanced query
 		new_column_names.push_back(renamed);
 	}
 	for(unsigned int i = 0; i < cw_one.size(); i++)
